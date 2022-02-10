@@ -115,7 +115,7 @@ val_transforms = Compose(
 
 root_data_dir = r'D:\Capstone\dataset'
 # root_data_dir = r'/workspace/unetr-heart/datasets'
-data_dir = "/dataset-btcv-abdomen/"
+data_dir = "/dataset-wholeheart/"
 split_JSON = "dataset_0.json"
 datasets = root_data_dir + data_dir + split_JSON
 
@@ -166,16 +166,29 @@ slice_map = {
     # "ct_train_1004_image.nii.gz": 50,
 }
 
-case_num = 4
-model.load_state_dict(torch.load("best_metric_model.pth"))
-# model.load_state_dict(torch.load("best_metric_model.pth", map_location=torch.device('cpu')),strict=False)
+case_num = 2
+# model.load_state_dict(torch.load("best_metric_model.pth"))
+model.load_state_dict(torch.load("best_metric_model.pth", map_location=torch.device('cpu')),strict=False)
 model.eval()
 with torch.no_grad():
     img_name = os.path.split(val_ds[case_num]["image_meta_dict"]["filename_or_obj"])[1]
     img = val_ds[case_num]["image"]
     label = val_ds[case_num]["label"]
-    val_inputs = torch.unsqueeze(img, 1).cuda()
-    val_labels = torch.unsqueeze(label, 1).cuda()
+
+    # transform batch label to whs labels
+    label = torch.where(label == 500.0, torch.tensor(1.0), label)
+    label = torch.where(label == 600.0, torch.tensor(2.0), label)
+    label = torch.where(label == 420.0, torch.tensor(3.0), label)
+    label = torch.where(label == 550.0, torch.tensor(4.0), label)
+    label = torch.where(label == 205.0, torch.tensor(5.0), label)
+    label = torch.where(label == 820.0, torch.tensor(6.0), label)
+    label = torch.where(label == 850.0, torch.tensor(7.0), label)
+
+    # val_inputs = torch.unsqueeze(img, 1).cuda()
+    # val_labels = torch.unsqueeze(label, 1).cuda()
+    val_inputs = torch.unsqueeze(img, 1)
+    val_labels = torch.unsqueeze(label, 1)
+
     val_outputs = sliding_window_inference(
         val_inputs, (48, 48, 48), 4, model, overlap=0.8
     )

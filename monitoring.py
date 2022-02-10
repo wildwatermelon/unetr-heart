@@ -10,7 +10,7 @@ file = open("epoch_loss_values.txt", "r")
 epoch_loss_values = list(map(float, file.read()[1:-1].split()))
 file = open("metric_values.txt", "r")
 metric_values = list(map(float, file.read()[1:-1].split()))
-eval_num = 100
+eval_num = 500
 
 model = UNETR(
     in_channels=1,
