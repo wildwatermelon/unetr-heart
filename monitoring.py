@@ -14,7 +14,7 @@ eval_num = 100
 
 model = UNETR(
     in_channels=1,
-    out_channels=14,
+    out_channels=8,
     img_size=(48,48,48),
     feature_size=16,
     hidden_size=768,

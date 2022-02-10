@@ -138,7 +138,6 @@ train_ds = CacheDataset(
 train_loader = DataLoader(
     train_ds, batch_size=1, shuffle=True, num_workers=8, pin_memory=True
 )
-
 val_ds = CacheDataset(
     data=val_files, transform=val_transforms, cache_num=6, cache_rate=1.0, num_workers=4
 )
@@ -172,6 +171,16 @@ def validation(epoch_iterator_val):
     dice_vals = list()
     with torch.no_grad():
         for step, batch in enumerate(epoch_iterator_val):
+
+            # transform batch label to whs labels
+            batch["label"] = torch.where(batch["label"] == 500.0, torch.tensor(1.0), batch["label"])
+            batch["label"] = torch.where(batch["label"] == 600.0, torch.tensor(2.0), batch["label"])
+            batch["label"] = torch.where(batch["label"] == 420.0, torch.tensor(3.0), batch["label"])
+            batch["label"] = torch.where(batch["label"] == 550.0, torch.tensor(4.0), batch["label"])
+            batch["label"] = torch.where(batch["label"] == 205.0, torch.tensor(5.0), batch["label"])
+            batch["label"] = torch.where(batch["label"] == 820.0, torch.tensor(6.0), batch["label"])
+            batch["label"] = torch.where(batch["label"] == 850.0, torch.tensor(7.0), batch["label"])
+
             val_inputs, val_labels = (batch["image"].cuda(), batch["label"].cuda())
             val_outputs = sliding_window_inference(val_inputs, (48,48,48), 4, model)
             val_labels_list = decollate_batch(val_labels)
@@ -192,7 +201,6 @@ def validation(epoch_iterator_val):
     mean_dice_val = np.mean(dice_vals)
     return mean_dice_val
 
-
 def train(global_step, train_loader, dice_val_best, global_step_best):
     model.train()
     epoch_loss = 0
@@ -201,9 +209,22 @@ def train(global_step, train_loader, dice_val_best, global_step_best):
         train_loader, desc="Training (X / X Steps) (loss=X.X)", dynamic_ncols=True
     )
     for step, batch in enumerate(epoch_iterator):
+
+        # transform batch label to whs labels
+        batch["label"] = torch.where(batch["label"] == 500.0, torch.tensor(1.0), batch["label"])
+        batch["label"] = torch.where(batch["label"] == 600.0, torch.tensor(2.0), batch["label"])
+        batch["label"] = torch.where(batch["label"] == 420.0, torch.tensor(3.0), batch["label"])
+        batch["label"] = torch.where(batch["label"] == 550.0, torch.tensor(4.0), batch["label"])
+        batch["label"] = torch.where(batch["label"] == 205.0, torch.tensor(5.0), batch["label"])
+        batch["label"] = torch.where(batch["label"] == 820.0, torch.tensor(6.0), batch["label"])
+        batch["label"] = torch.where(batch["label"] == 850.0, torch.tensor(7.0), batch["label"])
+
         step += 1
         x, y = (batch["image"].cuda(), batch["label"].cuda())
         logit_map = model(x)
+        # print(logit_map)
+        # print(y)
+        # return
         # logic_map is input and y is target
         loss = loss_function(logit_map, y)
         loss.backward()

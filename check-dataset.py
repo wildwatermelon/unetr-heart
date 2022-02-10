@@ -56,16 +56,16 @@ train_transforms = Compose(
                 clip=True,
             ),
             CropForegroundd(keys=["image", "label"], source_key="image"),
-            # RandCropByPosNegLabeld(
-            #     keys=["image", "label"],
-            #     label_key="label",
-            #     spatial_size=(96, 96, 96),
-            #     pos=1,
-            #     neg=1,
-            #     num_samples=4,
-            #     image_key="image",
-            #     image_threshold=0,
-            # ),
+            RandCropByPosNegLabeld(
+                keys=["image", "label"],
+                label_key="label",
+                spatial_size=(48, 48, 48),
+                pos=1,
+                neg=1,
+                num_samples=4,
+                image_key="image",
+                image_threshold=0,
+            ),
             RandFlipd(
                 keys=["image", "label"],
                 spatial_axis=[0],
@@ -136,24 +136,23 @@ val_loader = DataLoader(
 
 slice_map = {
     # val
-    # "ct_train_1017_image.nii.gz": 50,
-    # "ct_train_1018_image.nii.gz": 50,
-    # "ct_train_1019_image.nii.gz": 50,
-    # "ct_train_1020_image.nii.gz": 50,
+    "ct_train_1017_image.nii.gz": 50,
+    "ct_train_1018_image.nii.gz": 50,
+    "ct_train_1019_image.nii.gz": 50,
+    "ct_train_1020_image.nii.gz": 50,
 
     # train
-    "ct_train_1001_image.nii.gz": 50,
-    "ct_train_1002_image.nii.gz": 50,
-    "ct_train_1003_image.nii.gz": 50,
-    "ct_train_1004_image.nii.gz": 50,
+    # "ct_train_1001_image.nii.gz": 50,
+    # "ct_train_1002_image.nii.gz": 50,
+    # "ct_train_1003_image.nii.gz": 50,
+    # "ct_train_1004_image.nii.gz": 50,
 }
 
 for i in range(4):
     case_num = i
-    img_name = os.path.split(train_ds[case_num]["image_meta_dict"]["filename_or_obj"])[1]
-    img = train_ds[case_num]["image"]
-    label = train_ds[case_num]["label"]
-
+    img_name = os.path.split(val_ds[case_num]["image_meta_dict"]["filename_or_obj"])[1]
+    img = val_ds[case_num]["image"]
+    label = val_ds[case_num]["label"]
     img_shape = img.shape
     label_shape = label.shape
     print(f"image shape: {img_shape}, label shape: {label_shape}")

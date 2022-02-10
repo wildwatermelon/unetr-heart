@@ -28,28 +28,29 @@ def create_json():
 
     json_conversion_output["description"] = "dataset-whole-heart-segmentation jk"
     json_conversion_output["labels"] = {
-        # "0": "background",
-        # "1": "LV",
-        # "2": "Myo",
-        # "3": "RV",
-        # "4": "LA",
-        # "5": "RA",
-        # "6": "aorta",
-        # "7": "PA",
+        #  LV, RV, LA, RA, Myo, AO, PA are labeled 500, 600, 420, 550, 205, 820, 850
         "0": "background",
-        "1": "spleen",
-        "2": "rkid",
-        "3": "lkid",
-        "4": "gall",
-        "5": "eso",
-        "6": "liver",
-        "7": "sto",
-        "8": "aorta",
-        "9": "IVC",
-        "10": "veins",
-        "11": "pancreas",
-        "12": "rad",
-        "13": "lad"
+        "1": "LV",
+        "2": "RV",
+        "3": "LA",
+        "4": "RA",
+        "5": "Myo",
+        "6": "AO",
+        "7": "PA",
+        # "0": "background",
+        # "1": "spleen",
+        # "2": "rkid",
+        # "3": "lkid",
+        # "4": "gall",
+        # "5": "eso",
+        # "6": "liver",
+        # "7": "sto",
+        # "8": "aorta",
+        # "9": "IVC",
+        # "10": "veins",
+        # "11": "pancreas",
+        # "12": "rad",
+        # "13": "lad"
     }
     json_conversion_output["licence"] = "yt"
     json_conversion_output["modality"] = {
