@@ -1,0 +1,6 @@
+# IDEs and editors
+.idea/*
+
+# Files
+others/*
+best_metric_model.pth
