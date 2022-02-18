@@ -158,7 +158,6 @@ for i in range(4):
     print(f"image shape: {img_shape}, label shape: {label_shape}")
     for i in [-20,5,5,5,5,5,5,5,5]:
         slice_map[img_name] = slice_map[img_name]+i
-        print(slice_map[img_name])
         plt.figure("image", (18, 6))
         plt.subplot(1, 2, 1)
         plt.title("image: "+ img_name + '-' + "slice: " +  str(slice_map[img_name]))

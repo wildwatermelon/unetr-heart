@@ -159,7 +159,7 @@ def save_checkpoint(model,
         save_dict['scheduler'] = scheduler.state_dict()
     filename=os.path.join(args.logdir, filename)
     torch.save(save_dict, filename)
-    print('Saving checkpoint', filename)
+    print('Results checkpoint', filename)
 
 def run_training(model,
                  train_loader,
