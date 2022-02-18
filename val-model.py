@@ -194,13 +194,13 @@ with torch.no_grad():
     )
     plt.figure("check", (18, 6))
     plt.subplot(1, 3, 1)
-    plt.title("image")
+    plt.title("image: "+ img_name + '-' + "slice: " +  str(slice_map[img_name]))
     plt.imshow(val_inputs.cpu().numpy()[0, 0, :, :, slice_map[img_name]], cmap="gray")
     plt.subplot(1, 3, 2)
-    plt.title("label")
+    plt.title("label: " + img_name + '-' + "slice: " +  str(slice_map[img_name]))
     plt.imshow(val_labels.cpu().numpy()[0, 0, :, :, slice_map[img_name]])
     plt.subplot(1, 3, 3)
-    plt.title("output")
+    plt.title("output: " + img_name + '-' + "slice: " +  str(slice_map[img_name]))
     plt.imshow(
         torch.argmax(val_outputs, dim=1).detach().cpu()[0, :, :, slice_map[img_name]]
     )

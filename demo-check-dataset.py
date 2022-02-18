@@ -137,7 +137,7 @@ val_loader = DataLoader(
 slice_map = {
     # val
     "ct_train_1017_image.nii.gz": 50,
-    "ct_train_1018_image.nii.gz": 50,
+    "ct_train_1018_image.nii.gz": 30,
     "ct_train_1019_image.nii.gz": 50,
     "ct_train_1020_image.nii.gz": 50,
 
@@ -156,11 +156,14 @@ for i in range(4):
     img_shape = img.shape
     label_shape = label.shape
     print(f"image shape: {img_shape}, label shape: {label_shape}")
-    plt.figure("image", (18, 6))
-    plt.subplot(1, 2, 1)
-    plt.title("image")
-    plt.imshow(img[0, :, :, slice_map[img_name]].detach().cpu(), cmap="gray")
-    plt.subplot(1, 2, 2)
-    plt.title("label")
-    plt.imshow(label[0, :, :, slice_map[img_name]].detach().cpu())
-    plt.show()
+    for i in [-20,5,5,5,5,5,5,5,5]:
+        slice_map[img_name] = slice_map[img_name]+i
+        print(slice_map[img_name])
+        plt.figure("image", (18, 6))
+        plt.subplot(1, 2, 1)
+        plt.title("image: "+ img_name + '-' + "slice: " +  str(slice_map[img_name]))
+        plt.imshow(img[0, :, :, slice_map[img_name]].detach().cpu(), cmap="gray")
+        plt.subplot(1, 2, 2)
+        plt.title("label: " + img_name + '-' + "slice: " +  str(slice_map[img_name]))
+        plt.imshow(label[0, :, :, slice_map[img_name]].detach().cpu())
+        plt.show()
